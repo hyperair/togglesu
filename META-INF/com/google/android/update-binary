@@ -34,7 +34,7 @@ EOF
 cat > /system/xbin.hidesu/togglesu << 'EOF'
 #!/system/bin/sh
 
-sureal -c 'for i in xbin bin; do umount /system/$i; done'
+sureal -c 'for i in xbin bin; do umount -l /system/$i; done'
 EOF
 
 for i in xbin xbin.hidesu; do
