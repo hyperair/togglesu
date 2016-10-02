@@ -25,13 +25,13 @@ for bin in bin xbin; do
 done
 
 ui_print "Installing togglesu scripts"
-cat > /system/xbin/togglesu <<EOF
+cat > /system/xbin/togglesu << 'EOF'
 #!/system/bin/sh
 
 su -c 'for i in xbin bin; do mount --bind /system/$i.hidesu /system/$i; done'
 EOF
 
-cat > /system/xbin.hidesu/togglesu <<EOF
+cat > /system/xbin.hidesu/togglesu << 'EOF'
 #!/system/bin/sh
 
 sureal -c 'for i in xbin bin; do umount $i; done'
