@@ -1,14 +1,30 @@
-#!/bin/sh
+#!/sbin/sh
 
-set -e
-mount /system
+OUTFD="/proc/self/fd/$2"
+ZIP="$3"
+
+ui_print() {
+    echo ui_print "$@" > $OUTFD
+}
+
+set -ex
+
+ui_print "Mounting /system"
+mountpoint -q /system || mount /system
+
+ui_print "Entering /system"
 cd /system
 
 for bin in bin xbin; do
-    /system/bin/rsync -Xa "$bin/" "$bin.hidesu/"
+    ui_print "Removing /system/$bin.hidesu if it exists"
+    rm -rf "$bin.hidesu"
+
+    ui_print "Copying /system/$bin to /system/$bin.hidesu"
+    /system/xbin/rsync -Xa "$bin/" "$bin.hidesu/"
     mv "$bin.hidesu/su" "$bin.hidesu/sureal"
 done
 
+ui_print "Installing togglesu scripts"
 cat > /system/xbin/togglesu <<EOF
 #!/bin/sh
 
@@ -21,6 +37,8 @@ cat > /system/xbin.hidesu/togglesu <<EOF
 sureal -c 'for i in xbin bin; do umount $i; done'
 EOF
 
-for bin in bin xbin; do
-    chmod +x /system/$bin/togglesu
+for i in xbin xbin.hidesu; do
+    chmod +x /system/$i/togglesu
 done
+
+ui_print "Done"
