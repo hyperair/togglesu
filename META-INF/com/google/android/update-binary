@@ -26,13 +26,13 @@ done
 
 ui_print "Installing togglesu scripts"
 cat > /system/xbin/togglesu <<EOF
-#!/bin/sh
+#!/system/bin/sh
 
 su -c 'for i in xbin bin; do mount --bind /system/$i.hidesu /system/$i; done'
 EOF
 
 cat > /system/xbin.hidesu/togglesu <<EOF
-#!/bin/sh
+#!/system/bin/sh
 
 sureal -c 'for i in xbin bin; do umount $i; done'
 EOF
