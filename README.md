@@ -16,16 +16,16 @@ Usage
 -----
 
 After installing `togglesu`, open a terminal and run `togglesu` to hide su. Run
-`togglesu` again to make su show up. When `su` is hidden, it is named `sureal`.
+`togglesu` again to re-enable `su`. When `su` is hidden, it is named `sureal`.
 
 
 How it works
 ------------
 
 `togglesu` makes a copy of your `/system/bin` and `/system/xbin` directories in
-`/system/bin.hidesu` and `/system/xbin/hidesu` respectively. In these
+`/system/bin.hidesu` and `/system/xbin.hidesu` respectively. In these
 directories, `su` is renamed to `sureal`. `togglesu` also drops a script into
-`/system/xbin/` and `/system/xbin.hidesu`.
+`/system/xbin/` and `/system/xbin.hidesu/`.
 
 To hide su, `/system/bin.hidesu` and `/system/xbin.hidesu` are bind-mounted on
 top of their respective bin directories, causing `su` to apparently vanish. To
