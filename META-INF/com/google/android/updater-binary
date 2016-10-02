@@ -1,0 +1,26 @@
+#!/bin/sh
+
+set -e
+mount /system
+cd /system
+
+for bin in bin xbin; do
+    /system/bin/rsync -Xa "$bin/" "$bin.hidesu/"
+    mv "$bin.hidesu/su" "$bin.hidesu/sureal"
+done
+
+cat > /system/xbin/togglesu <<EOF
+#!/bin/sh
+
+su -c 'for i in xbin bin; do mount --bind /system/$i.hidesu /system/$i; done'
+EOF
+
+cat > /system/xbin.hidesu/togglesu <<EOF
+#!/bin/sh
+
+sureal -c 'for i in xbin bin; do umount $i; done'
+EOF
+
+for bin in bin xbin; do
+    chmod +x /system/$bin/togglesu
+done
