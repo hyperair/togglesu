@@ -22,15 +22,12 @@ After installing `togglesu`, open a terminal and run `togglesu` to hide su. Run
 How it works
 ------------
 
-`togglesu` makes a copy of your `/system/bin` and `/system/xbin` directories in
-`/system/bin.hidesu` and `/system/xbin.hidesu` respectively. In these
-directories, `su` is renamed to `sureal`. `togglesu` also drops a script into
-`/system/xbin/` and `/system/xbin.hidesu/`.
+During installation, `togglesu` moves `/system/xbin/su` to
+`/system/xbin/sureal`, and the symlink `/system/xbin/su -> sureal` is created.
 
-To hide su, `/system/bin.hidesu` and `/system/xbin.hidesu` are bind-mounted on
-top of their respective bin directories, causing `su` to apparently vanish. To
-re-enable su, the two directories are unmounted.
-
+When disabling or re-enabling su, the `/system/bin/su` and `/system/xbin/su`
+symlinks are deleted and re-created respectively. `/system` is remounted rw for
+the duration of the operation.
 
 Why
 ---
